@@ -64,8 +64,8 @@ else{ //new quote
 $index = 0;
 foreach($_POST['chapterData'] as $chapterData)
 {
-    if ($stmt = $con->prepare('INSERT INTO quote_chapters (chapter_name, quote_id, default_chapter_id, sort_order) VALUES (?, ?, ?, ?)')) {
-        $stmt->bind_param('sisi', $chapterData['chapter_name'], $quote_id, $chapterData['default_chapter_id'], $index);
+    if ($stmt = $con->prepare('INSERT INTO quote_chapters (chapter_name, quote_id, default_chapter_id, 	chapter_factor, sort_order) VALUES (?, ?, ?, ?, ?)')) {
+        $stmt->bind_param('sissi', $chapterData['chapter_name'], $quote_id, $chapterData['default_chapter_id'], $chapterData['chapter_factor'], $index);
         
         $stmt->execute();
         $index++;

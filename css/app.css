@@ -1704,6 +1704,13 @@ body.popup-active {
     color: white;
 }
 
+.chapter-header input[type=text].chapter_factor{
+    width : 50px !important;
+    background: white;
+    height: 30px;
+    color: black;
+}
+
 .chapter-header .actiebutton {
     float: right;
     position: relative;
@@ -4308,6 +4315,8 @@ width:10%;
 line-height:20px;
 padding-top:5px;	
 }
+
+
 
 .popup.very-large #quoteinfo {
 max-height:450px;	

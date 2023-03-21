@@ -55,7 +55,7 @@ while ($row = $result1->fetch_assoc()) {
 
 
 
-if ($stmt = $con->prepare('SELECT id as chapter_id, chapter_name, default_chapter_id FROM quote_chapters WHERE quote_id = ? ORDER BY sort_order ASC')) {
+if ($stmt = $con->prepare('SELECT id as chapter_id, chapter_name, default_chapter_id, chapter_factor FROM quote_chapters WHERE quote_id = ? ORDER BY sort_order ASC')) {
 
     $stmt->bind_param('s', $_POST['quote_id']);
     $stmt->execute();

@@ -660,7 +660,7 @@ function buildChapter(chapterData, existing = false, shouldBuildLine = true)
     "<input type='hidden' name='chapter_id[]' value='" + id + "'>" +
     "<div class='chapter-wrapper'><div class='chapter-header row'><div class='col s4'><select class='browser-default' name='chapter_title' onchange='changedChapter(\"" + id + "\")'>" + optionHtml + "</select></div>";
     
-    chapterhtml += "<div class='col s1'><p>Aantal</p></div><div class='col s1'></div><div class='col s1'><p>Prijs ex.BTW</p></div><div class='col s1'><p>BTW</p></div><div class='col s1'><p>Prijs inc.BTW</p></div><div class='col s2'><p>Subtotaal</p></div><div class='col icon-list'>" +
+    chapterhtml += "<div class='col s1'><p>Aantal</p></div><div class='col s1'></div><div class='col s1'><p>Prijs ex.BTW</p></div><div class='col s1'><p>BTW</p></div><div class='col s1'><p>Prijs inc.BTW</p></div><div class='col s1'><p>Subtotaal</p></div><div class='col s1'><p>W&R % <input type='text' onchange='convertNumber(this, 2)' oninput='calculate(true)' class='chapter_factor' name='chapter_factor'/></p></div><div class='col icon-list'>" +
     "<div onclick='deleteChapter(\"" + id + "\")' class='actiebutton ' data-position='top' ><i class='material-icons'>delete</i></div>" +
     "<div onclick='moveupChapter(\"" + id + "\")' class='actiebutton  moveup-btn' data-position='top' data-tooltip=''><i class='material-icons'>arrow_upward</i></div>" +
     "<div onclick='addLine(\"" + id + "\")' class='actiebutton ' data-position='top' data-tooltip=''><i class='material-icons'>add</i></div>" +
@@ -672,6 +672,10 @@ function buildChapter(chapterData, existing = false, shouldBuildLine = true)
     "</div>" +
     "</div></div>";
     $('.popup .chapters').append(chapterhtml);
+    if(existing && chapterData['chapter_factor'] != '')
+    {
+        $("#chapter_" + id + " .chapter_factor").val(chapterData['chapter_factor']);
+    }
     if(shouldBuildLine)
     {
         for(var index = 0; index < chapterData['line_data'].length; index ++)
@@ -824,6 +828,15 @@ function calculate(flag_c_profit = false)
         var chapter_item = $(".chapters .chapter-container")[kdex];
         var chapter_subtotal_ex = 0;
         var chapter_subtotal_in = 0;
+        var chapter_factor = factor;
+        
+        if($(".chapters #" + chapter_item.id+ " .chapter_factor").val() != '')
+        {
+            chapter_factor = $(".chapters #" + chapter_item.id+ " .chapter_factor").val();
+            chapter_factor = getRealNumber(chapter_factor);
+            chapter_factor = chapter_factor / 100;
+        }
+
     
         for(var index = 0; index < $(".chapters #" + chapter_item.id+ " .chapter-line").length ; index ++)
         {
@@ -855,18 +868,20 @@ function calculate(flag_c_profit = false)
             var price = 0;
             var sub_winst_total = 0;
             var line_profit = $(line_com + " .chapter-line-profit").val();
+
+            
             if(line_am_option == 'ja'){
-                price = (arbeid * rate + materiaal_total) * (1 + factor);
+                price = (arbeid * rate + materiaal_total) * (1 + chapter_factor);
                 t_arbeid += arbeid * quantity_val;
                 t_materiaal += materiaal_total * quantity_val;
-                sub_winst_total = (arbeid * rate + materiaal_total) * quantity_val * factor;
+                sub_winst_total = (arbeid * rate + materiaal_total) * quantity_val * chapter_factor;
             }
                 
             else {
                 if(line_profit == "0")
                 {
-                    price = line_total * (1 + factor);
-                    sub_winst_total = line_total * factor * quantity_val;
+                    price = line_total * (1 + chapter_factor);
+                    sub_winst_total = line_total * chapter_factor * quantity_val;
                 }
                 else{
                     price = line_total;
@@ -1172,6 +1187,7 @@ function saveQuote(version = 1) {
     for (var index = 0; index < $(".chapter-container input[name='chapter_id[]']").length; index++) {
 
         var chapter_id = $(".chapter-container input[name='chapter_id[]']").eq(index).val();
+        var chapter_factor = $(".chapters #chapter_" + chapter_id + " .chapter_factor").val();
         var chapter_name = $(".chapters #chapter_" + chapter_id + " select[name='chapter_title'] option:selected").text();
         var line_datas = [];
         for (var jdex = 0; jdex < $("#chapter_" + chapter_id + " .chapter-line-id").length; jdex++) {
@@ -1260,7 +1276,8 @@ function saveQuote(version = 1) {
         chapterData.push({
             chapter_name: chapter_name,
             default_chapter_id: $(".chapters #chapter_" + chapter_id + " select[name='chapter_title']").val(),
-            line_data: line_datas
+            line_data: line_datas,
+            chapter_factor : chapter_factor
         });
     }
     quoteData = {
@@ -1527,146 +1544,6 @@ function editQuote(quote_id) {
 
 
 
-function cloneQuote_old(quote_id) {
-    var contact_id = $("#quotelist .contactid").val();
-    var userid = $("#quotelist .userid").val();
-    closeModal();
-    trggerFullscreen(2);
-    prefillVeryLargeModal('Offerte toevoegen', 'addQuote.php').then(function() {
-        $.ajax({
-            type: "POST",
-            url: "../php/leads/get_lead_log.php",
-            data: {
-                contactid: contact_id
-
-            },
-            dataType: "html",
-            success: function(result) {
-                if (result) {
-                    $("#quoteinfo .contactid").val(contact_id);
-                    $("#quoteinfo .userid").val(userid);
-                    $("#quoteinfo .quoteid").val("");
-                    
-                    if (!Array.isArray(result)) result = $.parseJSON(result);
-                    var title = '';
-                    if (result.length > 0) {
-
-                        let timer = result[0].timer;
-                        let name = result[0].name;
-                        let email = result[0].email;
-                        let phone = result[0].phone;
-                        title = name + ((timer) ? timer : '') + '<span class="city">' + email + " - " + phone + '</span>';
-
-                    }
-
-
-                    title += '<input type="text" placeholder="Kenmerk offerte" class="txt-quote-reference" value="" />';
-                    title += '<div class="btn-quote-fullscreen tooltipped" onclick="trggerFullscreen()"  class="actiebutton tooltipped" data-position="top" data-tooltip="Fullscreen"><i class="material-icons">fullscreen</i></div>';
-                    title += '<div class="open-intro-button tooltipped" onclick="openIntro()"  class="actiebutton tooltipped" data-position="top" data-tooltip="Introductie tekst"><i class="material-icons">subject</i></div>';
-                    title += '<div class="save-button"><span class="button waves-effect waves-light btn" onclick="saveQuote()">Offerte opslaan</span></div>';
-                    $(".popup.very-large .title").html(title);
-                    $(".popup.very-large .popupheader .btn-modal-close").attr('onclick', 'closeVeryLargeModalForQuote()');
-                    $("#quoteinfo .chapters").empty();
-
-
-
-
-
-                    $.ajax({
-                        type: "POST",
-                        url: "../php/leads/get_quote_details.php",
-                        data: {
-                            quote_id: quote_id
-
-                        },
-                        dataType: "html",
-                        success: function(result) {
-                            if (!Array.isArray(result)) result = $.parseJSON(result);
-                            var intro = result['intro'];
-                            $(".txt-quote-reference").val(result['reference']);
-                            var factor = result['factor'];
-                            var rate = result['rate'];
-
-                            var inkoop = result['inkoop'];
-                            var kosten = result['kosten'];
-                            var materiaal_pdf = result['materiaal_pdf'];
-                            var arbeid_pdf = result['arbeid_pdf'];
-                            var file_path = result['file_path'];
-                            var version = result['version'];
-
-                            if(factor != '')
-                            {
-                                factor = getRealNumber(factor);
-                            }
-                            else 
-                                factor = 0;
-                            factor = factor * 100;
-                            factor = addCommas(parseFloat(factor).toFixed(2));
-                            
-                            if(file_path != null && file_path != '')
-                            {
-                                $(".popup .offerte_header_file_container img").attr('src', root + "upload/" + file_path);
-                                $(".popup .offerte_header_file_container img").attr('onclick', 'openPrev("' + file_path + '")');
-                                $(".popup .offerte_header_file_container img").show();
-                                $(".popup .offerte_header_file_container .btn-filelog").addClass("file_selected");
-                                $(".popup .btn-filelog .file-path").val(file_path);
-                            }
-
-                            $(".popup .cloned").val('1');
-
-                            result = result['result'];
-                            $("#intro-text").html(intro);
-                            
-                            $("#offerte_factor").val(factor);
-                            $("#offerte_rate").val(rate);
-                            $("#offerte_inkoop").val(inkoop);
-                            $("#offerte_kosten").val(kosten);
-                            $("#offerte_arbeid_pdf").prop('checked', arbeid_pdf);
-                            $("#offerte_materiaal_pdf").prop('checked', materiaal_pdf);
-
-
-                            $.ajax({
-                                type: "POST",
-                                url: "../php/settings/get_default_offerte_details.php",
-                                data : {
-                                    version : version
-                                },
-                                dataType: "json",
-                                success: function(detailed_result) {
-                                    tags = detailed_result['tags'];
-                                    defaultChapterList = detailed_result['chapter_list'];
-                                    for (var index = 0; index < result.length; index++) {
-                                        buildChapter(result[index], true);
-                                    }
-                                    initEditor();
-                                    calculate();
-                                    $('.chapter-line-vat').formSelect();
-                                    $('.tooltipped').tooltip();
-                                    $(".popup .save-button span.btn").attr('onclick', "saveQuote(" + version + ")")
-                                    showPrefilledVeryLargeModal('max');
-        
-                                }
-                            });
-                            
-                        },
-                        error: function(e1, e2, e3)
-                        {
-
-                        }
-
-                    })
-                    
-
-                }
-                
-            },
-            error(e1, e2, e3) {
-
-            }
-        });
-    });
-
-}
 
 function cloneQuote(qID){
     $("#qcpc-" + qID).show();
