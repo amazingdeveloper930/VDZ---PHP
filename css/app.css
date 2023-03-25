@@ -1705,10 +1705,12 @@ body.popup-active {
 }
 
 .chapter-header input[type=text].chapter_factor{
-    width : 50px !important;
+    width : 40px !important;
     background: white;
     height: 30px;
     color: black;
+    padding: 0px 5px !important;
+    font-weight: normal;
 }
 
 .chapter-header .actiebutton {
