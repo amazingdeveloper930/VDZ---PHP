@@ -602,7 +602,7 @@ p{
 
 body{
 
-    background-image: url("quote_back.jpg");
+    background-image: url("' . __DIR__ . '/../../images/quote_back.jpg");
     background-repeat: no-repeat;
     background-size: contain;
     background-position: top left;
