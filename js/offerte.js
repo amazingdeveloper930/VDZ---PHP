@@ -874,7 +874,8 @@ function calculate(flag_c_profit = false)
                 price = (arbeid * rate + materiaal_total) * (1 + chapter_factor);
                 t_arbeid += arbeid * quantity_val;
                 t_materiaal += materiaal_total * quantity_val;
-                sub_winst_total = (arbeid * rate + materiaal_total) * quantity_val * chapter_factor;
+                // sub_winst_total = (arbeid * rate + materiaal_total) * quantity_val * chapter_factor;
+                sub_winst_total = materiaal_total * quantity_val * chapter_factor;
             }
                 
             else {
