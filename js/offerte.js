@@ -871,11 +871,11 @@ function calculate(flag_c_profit = false)
 
             
             if(line_am_option == 'ja'){
-                price = (arbeid * rate + materiaal_total) * (1 + chapter_factor);
+                price = arbeid * rate + materiaal_total * (1 + chapter_factor);
                 t_arbeid += arbeid * quantity_val;
                 t_materiaal += materiaal_total * quantity_val;
                 // sub_winst_total = (arbeid * rate + materiaal_total) * quantity_val * chapter_factor;
-                sub_winst_total = materiaal_total * quantity_val * chapter_factor;
+                sub_winst_total = materiaal_total * chapter_factor;
             }
                 
             else {
@@ -958,20 +958,20 @@ function calculate(flag_c_profit = false)
     $(".calculating-box .total-excel").html(addCommas((total_excl).toFixed(2).replace(/\./g, ',')));
     $(".calculating-box .uren_arbeid").html(addCommas(t_arbeid.toFixed(2).replace(/\./g, ',')));
 
-    $(".calculating-box .verkoop_arbeid").html(addCommas((t_arbeid * rate).toFixed(2).replace(/\./g, ',')));
+    $(".calculating-box .verkoop_arbeid").html(addCommas((t_arbeid * rate).toFixed(2).replace(/\./g, ',')) + " (" + getPercentageStr(t_arbeid * rate, total_excl)+ "%)");
 
-    $(".calculating-box .inkoop_arbeid").html(addCommas((t_arbeid * inkoop).toFixed(2).replace(/\./g, ',')));
+    $(".calculating-box .inkoop_arbeid").html(addCommas((t_arbeid * inkoop).toFixed(2).replace(/\./g, ',')) + " (" + getPercentageStr(t_arbeid * inkoop, total_excl)+ "%)");
 
-    $(".calculating-box .inkoop_materiaal").html(addCommas((t_materiaal).toFixed(2).replace(/\./g, ',')));
+    $(".calculating-box .inkoop_materiaal").html(addCommas((t_materiaal).toFixed(2).replace(/\./g, ',')) + " (" + getPercentageStr(t_materiaal, total_excl)+ "%)");
 
-    $(".calculating-box .marge_uren").html(addCommas((t_arbeid * (rate - inkoop)).toFixed(2).replace(/\./g, ',')));
+    $(".calculating-box .marge_uren").html(addCommas((t_arbeid * (rate - inkoop)).toFixed(2).replace(/\./g, ',')) + " (" + getPercentageStr(t_arbeid * (rate - inkoop), total_excl)+ "%)");
 
-    $(".calculating-box .marge_w").html(addCommas(t_wr.toFixed(2).replace(/\./g, ',')));
-    $(".calculating-box .totaal_marge").html(addCommas((t_arbeid * (rate - inkoop) + t_wr + t_profit).toFixed(2).replace(/\./g, ',')));
+    $(".calculating-box .marge_w").html(addCommas(t_wr.toFixed(2).replace(/\./g, ',')) + " (" + getPercentageStr(t_wr, total_excl)+ "%)");
+    $(".calculating-box .totaal_marge").html(addCommas((t_arbeid * (rate - inkoop) + t_wr + t_profit).toFixed(2).replace(/\./g, ',')) + " (" + getPercentageStr(t_arbeid * (rate - inkoop) + t_wr + t_profit, total_excl)+ "%)");
 
-    $(".calculating-box .algemene_kosten").html(addCommas((profitAmount * kosten / 100).toFixed(2).replace(/\./g, ',')));
+    $(".calculating-box .algemene_kosten").html(addCommas((profitAmount * kosten / 100).toFixed(2).replace(/\./g, ',')) + " (" + getPercentageStr(profitAmount * kosten / 100, total_excl)+ "%)");
 
-    $(".calculating-box .netto_winst").html(addCommas((t_arbeid * (rate - inkoop) + t_wr + t_profit - profitAmount * kosten / 100).toFixed(2).replace(/\./g, ',')));
+    $(".calculating-box .netto_winst").html(addCommas((t_arbeid * (rate - inkoop) + t_wr + t_profit - profitAmount * kosten / 100).toFixed(2).replace(/\./g, ',')) + " (" + getPercentageStr(t_arbeid * (rate - inkoop) + t_wr + t_profit - profitAmount * kosten / 100, total_excl)+ "%)");
 
 }
 
@@ -1058,6 +1058,7 @@ function getTotal(chapter_id = null, line_id = null, shouldcalculate = true) {
 
 	var factor = $("#offerte_factor").val();
 	var rate = $("#offerte_rate").val();
+    var arbeid_factor = $("#arbeid_factor").val();
 	if(factor != '')
 	{
 		factor = getRealNumber(factor);
@@ -1070,13 +1071,24 @@ function getTotal(chapter_id = null, line_id = null, shouldcalculate = true) {
 		rate = getRealNumber(rate);
 	}
 	else
-		rate = 0;
+    rate = 0;
+    if(arbeid_factor != '')
+    {
+        arbeid_factor = getRealNumber(arbeid_factor);
+    }
+    else
+        arbeid_factor = 1;
 	if(line_id == null)
 	{
 		for(var index = 0; index < $(".chapter-container").length; index ++)
 		{
-			var item_line_id = $($(".chapter-container")[index]).find(".chapter-line-id").val();
-			getTotal(null, item_line_id, shouldcalculate);
+            var line_items = $($(".chapter-container")[index]).find(".chapter-line-id");
+            for(var jdex = 0; jdex < line_items.length; jdex ++)
+            {
+                var item_line_id = $(line_items[jdex]).val();
+                getTotal(null, item_line_id, shouldcalculate);
+            }
+			
 		}
 	}
 	else{
@@ -1109,7 +1121,7 @@ function getTotal(chapter_id = null, line_id = null, shouldcalculate = true) {
 				$("#" + item_str + " .label-arbeid-item-total").text(addCommas(parseFloat(a_t).toFixed(2)));
 			}
 
-			$(container + " .chapter-line-arbeid").val(addCommas(parseFloat(ar_value_total)));
+			$(container + " .chapter-line-arbeid").val(addCommas((parseFloat(ar_value_total) * arbeid_factor).toFixed(2)));
 			var arbeid_value = $(container + " .chapter-line-arbeid").val();
 			var arbeid_total = getRealNumber(arbeid_value) * rate;
 			$(container + " .label-arbeid-total").text(addCommas(parseFloat(arbeid_total).toFixed(2)));
@@ -1169,6 +1181,7 @@ function saveQuote(version = 1) {
     var rate = $(".popup #offerte_rate").val();
     var inkoop = $(".popup #offerte_inkoop").val();
     var kosten = $(".popup #offerte_kosten").val();
+    var arbeid_factor = $(".popup #arbeid_factor").val();
     var arbeid_pdf = $(".popup #offerte_arbeid_pdf").prop('checked');
     var materiaal_pdf = $(".popup #offerte_materiaal_pdf").prop('checked');
 
@@ -1292,6 +1305,7 @@ function saveQuote(version = 1) {
         rate: rate,
         inkoop : inkoop,
         kosten : kosten,
+        arbeid_factor : arbeid_factor,
         materiaal_pdf : materiaal_pdf,
         arbeid_pdf : arbeid_pdf,
         version : version
@@ -1471,6 +1485,7 @@ function editQuote(quote_id) {
                             var materiaal_pdf = result['materiaal_pdf'];
                             var arbeid_pdf = result['arbeid_pdf'];
                             var version = result['version'];
+                            var arbeid_factor = result['arbeid_factor'];
                             if(factor != '')
                             {
                                 factor = getRealNumber(factor);
@@ -1495,6 +1510,7 @@ function editQuote(quote_id) {
                             $("#offerte_rate").val(rate);
                             $("#offerte_inkoop").val(inkoop);
                             $("#offerte_kosten").val(kosten);
+                            $("#arbeid_factor").val(arbeid_factor);
 
                             $("#offerte_arbeid_pdf").prop('checked', arbeid_pdf);
                             $("#offerte_materiaal_pdf").prop('checked', materiaal_pdf);

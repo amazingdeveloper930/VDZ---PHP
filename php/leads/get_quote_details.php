@@ -22,6 +22,7 @@ $factor = '';
 $rate = '';
 $inkoop = '';
 $kosten = '';
+$arbeid_factor = '';
 $arbeid_pdf = '';
 $materiaal_pdf = '';
 $version = 1;
@@ -47,6 +48,8 @@ while ($row = $result1->fetch_assoc()) {
     $inkoop = $row['inkoop'];
   if($row['kosten'] != null)
     $kosten = $row['kosten'];
+  if($row['arbeid_factor'] != null)
+    $arbeid_factor = $row['arbeid_factor'];
   $version = $row['quote_version'];
   $arbeid_pdf = $row['arbeid_pdf'];
   $materiaal_pdf = $row['materiaal_pdf'];
@@ -104,6 +107,6 @@ if ($stmt = $con->prepare('SELECT id as chapter_id, chapter_name, default_chapte
       // $row += ['intro' => $intro_text];
       $result_array[] = $row;
     }
-    echo json_encode(["result" =>$result_array, "intro" => $intro_text, "reference" => $reference, 'factor' => $factor, 'kosten' => $kosten, 'rate' => $rate, 'inkoop' => $inkoop, 'materiaal_pdf' => $materiaal_pdf, 'arbeid_pdf' => $arbeid_pdf, 'file_path' => $file_path, 'version' => $version]);
+    echo json_encode(["result" =>$result_array, "intro" => $intro_text, "reference" => $reference, 'factor' => $factor, 'kosten' => $kosten, 'rate' => $rate, 'inkoop' => $inkoop, 'arbeid_factor' => $arbeid_factor, 'materiaal_pdf' => $materiaal_pdf, 'arbeid_pdf' => $arbeid_pdf, 'file_path' => $file_path, 'version' => $version]);
     
     ?>

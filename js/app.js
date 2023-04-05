@@ -406,6 +406,11 @@ function addCommas(nStr) {
     return x1 + x2;
 }
 
+function getPercentageStr(val1, val2)
+{
+    return addCommas((100 * val1 / val2).toFixed(2)); 
+}
+
 function getRealNumber(str)
 {
 	str = str.replace(/\./g, '');

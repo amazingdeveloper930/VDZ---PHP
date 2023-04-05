@@ -24,8 +24,8 @@ if(isset($_POST['quoteid']) && $_POST['quoteid']!= '') {
             copy( "../../upload/" . $row['file_path'], "../../upload/" . $file_name );
         }
 
-        $stmt_new = $con -> prepare("INSERT INTO quotes (contact_id, quote_date, account_id, file_path, intro, reference, factor, rate, inkoop, kosten, arbeid_pdf, materiaal_pdf, version, quote_version) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt_new -> bind_param('isisssssssiiii', $_POST['contact_id'], $dt, $_POST['userid'], $file_name, $row['intro'], $row['reference'], $row['factor'], $row['rate'], $row['inkoop'], $row['kosten'], $row['arbeid_pdf'], $row['materiaal_pdf'], $row['version'], $row['quote_version']);
+        $stmt_new = $con -> prepare("INSERT INTO quotes (contact_id, quote_date, account_id, file_path, intro, reference, factor, rate, inkoop, kosten, arbeid_factor, arbeid_pdf, materiaal_pdf, version, quote_version) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt_new -> bind_param('isissssssssiiii', $_POST['contact_id'], $dt, $_POST['userid'], $file_name, $row['intro'], $row['reference'], $row['factor'], $row['rate'], $row['inkoop'], $row['kosten'], $row['arbeid_factor'], $row['arbeid_pdf'], $row['materiaal_pdf'], $row['version'], $row['quote_version']);
         $stmt_new->execute();
         $new_quote_id = $stmt_new -> insert_id;
     }

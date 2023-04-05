@@ -10,10 +10,10 @@ if(isset($_POST['version']))
 
 if(isset($_POST['quoteid']) && $_POST['quoteid']!= '') {
     $quote_id = $_POST['quoteid'];
-    if($stmt = $con ->prepare('UPDATE quotes SET quote_date = ?, account_id = ?, intro=?, reference = ?, factor = ?, rate = ?, inkoop = ?, materiaal_pdf = ?, arbeid_pdf = ?, file_path = ?, kosten = ? WHERE id = ?')){
+    if($stmt = $con ->prepare('UPDATE quotes SET quote_date = ?, account_id = ?, intro=?, reference = ?, factor = ?, rate = ?, inkoop = ?, materiaal_pdf = ?, arbeid_pdf = ?, file_path = ?, kosten = ?, arbeid_factor = ? WHERE id = ?')){
         $date = date_create();
         $dt = $date->format("Y-m-d H:i:s");
-        $stmt->bind_param('sssssssiisss', $dt, $_POST['userid'], $_POST['intro'], $_POST['reference'], $_POST['factor'], $_POST['rate'], $_POST['inkoop'], $_POST['materiaal_pdf'], $_POST['arbeid_pdf'], $_POST['file_path'], $_POST['kosten'], $_POST['quoteid']);
+        $stmt->bind_param('sssssssiissss', $dt, $_POST['userid'], $_POST['intro'], $_POST['reference'], $_POST['factor'], $_POST['rate'], $_POST['inkoop'], $_POST['materiaal_pdf'], $_POST['arbeid_pdf'], $_POST['file_path'], $_POST['kosten'], $_POST['arbeid_factor'], $_POST['quoteid']);
         $stmt->execute();
 
         $stmt = $con -> prepare('DELETE FROM quote_chapters WHERE quote_id = ? ');
@@ -42,11 +42,11 @@ if(isset($_POST['quoteid']) && $_POST['quoteid']!= '') {
 }
 else{ //new quote
 
-    if ($stmt = $con->prepare('INSERT INTO quotes (contact_id, quote_date, account_id, reference, intro, factor, rate, inkoop, materiaal_pdf, arbeid_pdf, file_path, kosten, quote_version) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)')) {
+    if ($stmt = $con->prepare('INSERT INTO quotes (contact_id, quote_date, account_id, reference, intro, factor, rate, inkoop, materiaal_pdf, arbeid_pdf, file_path, kosten, arbeid_factor, quote_version) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)')) {
         // We do not want to e  xpose passwords in our database, so hash the password and use password_verify when a user logs in.
         $date = date_create();
         $dt = $date->format("Y-m-d H:i:s");
-        $stmt->bind_param('isisssssiissi', $_POST['contact_id'], $dt, $_POST['userid'], $_POST['reference'], $_POST['intro'], $_POST['factor'], $_POST['rate'], $_POST['inkoop'],  $_POST['materiaal_pdf'], $_POST['arbeid_pdf'], $_POST['file_path'], $_POST['kosten'], $quote_version);
+        $stmt->bind_param('isisssssiisssi', $_POST['contact_id'], $dt, $_POST['userid'], $_POST['reference'], $_POST['intro'], $_POST['factor'], $_POST['rate'], $_POST['inkoop'],  $_POST['materiaal_pdf'], $_POST['arbeid_pdf'], $_POST['file_path'], $_POST['kosten'], $_POST['arbeid_factor'], $quote_version);
         $stmt->execute();
         $quote_id = $stmt -> insert_id;
         
