@@ -263,7 +263,7 @@ height : 440px;
 $html .= '
     </div>
     <div class="panel-firth-right">
-    <p  class="txt-strong">*Voornaam / Bedrijfsnaaam?*</p>';
+    <p  class="txt-strong">' . $row['name'] . '</p>';
 
     if(isset($_POST['gw_todo_voornaam']))
     foreach($_POST['gw_todo_voornaam'] as $item)
@@ -300,7 +300,7 @@ function generateRandomString($length = 10, $hasNumber = false, $hasLowercase = 
 $date = date_create();
 $dt = $date->format("Y_m_d_H_i_s");
 $file_name = generateRandomString(10) . ".pdf";
-$mpdf->Output($file_name,'I'); 
+$mpdf->Output($file_name,'D'); 
 
 
 exit();
