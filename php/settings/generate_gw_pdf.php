@@ -297,11 +297,58 @@ function generateRandomString($length = 10, $hasNumber = false, $hasLowercase = 
     return substr(str_shuffle(str_repeat($x = $string, ceil($length / strlen($x)))), 1, $length);
 }
 
-$date = date_create();
-$dt = $date->format("Y_m_d_H_i_s");
+// $date = date_create();
+// $dt = $date->format("Y_m_d_H_i_s");
 $file_name = generateRandomString(10) . ".pdf";
+$mpdf->Output('upload/'.$file_name,'F'); 
 $mpdf->Output($file_name,'D'); 
 
+require( 'common/connection.php');
+
+if ($stmt = $con -> prepare('INSERT projects_file (contact_id, name, file_type, file_exe, uploaded_date, file_path, user_id, klantportaal, folder_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)')) {
+    
+    $file_type = 5;
+    $date = date_create();
+    $dt = $date->format("Y-m-d H:i:s");
+    $name = 'Gespreksverslag ' . ($date->format("d-m-Y"));
+    $klantportaal = 0;
+    $user_id = 0;
+    $folder_id = 0;
+    $fileEXE = 'pdf';
+    $file_path = $file_name;
+    $stmt -> bind_param('isisssiii', $_POST['gp_project'], $name, $file_type, $fileEXE, $dt, $file_path, $user_id, $klantportaal, $folder_id );
+    $stmt -> execute();
+
+    $contact_id = $_POST['gp_project'];
+    $text = '';
+    $title = "Bestand toegevoegd: " . $name;
+
+    $stmt_new_log = $con -> prepare("SELECT * FROM contacts WHERE id = ?");
+    $stmt_new_log -> bind_param("i", $contact_id);
+    $stmt_new_log -> execute();
+    
+    $flag = 0;
+    $result_new_log = $stmt_new_log -> get_result();
+  
+    while($row_new_log = $result_new_log -> fetch_assoc())
+    {
+      if($row_new_log['c_status'] == 3 && $row_new_log['l_status'] == 1)
+      {
+        $flag = 1;
+      }
+    }
+  
+    if($flag)
+    {
+      $date = date_create();
+      $date_text = $date->format("Y-m-d H:i:s");
+      $entry_type = 101;
+      $stmt_new_log = $con -> prepare("INSERT INTO contact_log (contact_id, entry_type, entry_title, entry_date, entry_description, account_id) VALUES (?, ?, ?, ?, ?, ?)");
+      $stmt_new_log -> bind_param("iisssi", $contact_id, $entry_type, $title, $date_text, $text, $user_id);
+      $stmt_new_log -> execute();
+  
+    }
+}
 
 exit();
 

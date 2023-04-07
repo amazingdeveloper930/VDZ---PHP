@@ -28,7 +28,7 @@
                 </div>
                 <div class="offerte_header_container">
                     <label>Arbeid factor</label>
-                    <input type="text" onchange="convertNumber(this)" oninput = "getTotal()" id="arbeid_factor"/>
+                    <input type="text" onchange="convertNumber(this, 2)" oninput = "getTotal()" id="arbeid_factor"/>
                 </div>
                 <div class="offerte_checkbox">
                     <span>Toon arbeid in PDF</span>

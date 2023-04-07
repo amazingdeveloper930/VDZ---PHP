@@ -7,7 +7,6 @@ if(isset($_POST['gp_form_data']))
 }
 
 
-require 'common/sessie_check.php';
 require 'common/global.php';
 require( 'common/connection.php');
 
@@ -50,7 +49,7 @@ $result_activity = $stmt -> get_result();
 		
 
 		<?php include 'common/header.php'; ?>
-
+        <link href="<?=$root;?>css/gespreksverslag.css" rel="stylesheet" type="text/css">	
 		
 
 </head>
@@ -68,41 +67,26 @@ require( 'common/connection.php');
 
 
 
-<body class="app">
+<body class="gespreksverslag">
 
+<div class="gespreksverslag-menubalk">
+
+	<img src="https://orders.vanderzeeuwbouw.nl/images/app-logo.png" class="app-logo">
+	<img src="https://orders.vanderzeeuwbouw.nl/images/app-logo-mob.png" class="app-logo mob">
 	
-		
-<?php include 'common/navigatie.php'; ?>
+	
+	
+
+</div>
+
+<div class="gespreksverslag-content">
 
 
 
-<div class="appcontent">
-
-
-
-    <div class="titlebar">
-
-        <div class="titlebarcontainer">
-
-            <h2>Dashboard</h2>
-
-            <div class="submenu">
-
-                <a class="<?php if($currentpage == 'gesprekvrslag') { echo "actief"; } ?>" href="/gespreksverslag/">gespreksverslag</a>
-
-            </div>
-
-            <div style="clear:both"></div>
-
-        </div>
-
-
-        <div style="clear:both"></div>
-
-    </div>
+    
     <div class="tab-content active">
         <div class="gespre-title">
-            <h3>Gesprekverslag</h3>
+            <h2>Gesprekverslag</h2>
             <p>Maak hier een verslag van het gesprek met de klant. De ingevulde velden krijg je automatisch in een pdf. Deze staat ook direct als bestand in het klantportaal klaar.</p>
         </div>
         <form method="POST" action="" id="gp-form">
@@ -171,7 +155,7 @@ require( 'common/connection.php');
         </div>
 
         <div class="gespre-footer">
-            <button type="submit" class=" button gespre-button waves-effect waves-light btn">Opslaan & .pdf maken</button>
+            <button type="button" class=" button gespre-button waves-effect waves-light btn" onclick="clearAllInputs()">Opslaan & .pdf maken</button>
         </div>
         </form>
     </div>

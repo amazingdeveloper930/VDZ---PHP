@@ -408,6 +408,8 @@ function addCommas(nStr) {
 
 function getPercentageStr(val1, val2)
 {
+    if(val2 == 0)
+        return "0,00";
     return addCommas((100 * val1 / val2).toFixed(2)); 
 }
 
@@ -1346,7 +1348,10 @@ function getContactlogStr(contactid, id, item, isnew = false)
 
     if(file_path == undefined || file_path == null || file_path == ''){
        
-    contactloghtml +='<div class="log-wrapper"><div class="log-header"><span class="c-type">' + type_Str + '</span><span class="c-date">' + getFormatedDateTime(date) + '</span><span class="c-user"><i class="material-icons">person</i> ' + user + '</span><div onclick="propLogInKlant(' + clid + ')" class="actiebutton tooltipped btn_klantenprop" data-position="top" data-tooltip="In klantportaal"><i class="material-icons">assignment_ind</i></div>';
+    contactloghtml +='<div class="log-wrapper"><div class="log-header"><span class="c-type">' + type_Str + '</span><span class="c-date">' + getFormatedDateTime(date);
+    if(user != null)
+    contactloghtml += '</span><span class="c-user"><i class="material-icons">person</i> ' + user + '</span>';
+    contactloghtml += '<div onclick="propLogInKlant(' + clid + ')" class="actiebutton tooltipped btn_klantenprop" data-position="top" data-tooltip="In klantportaal"><i class="material-icons">assignment_ind</i></div>';
     if(type != 101)
         contactloghtml += '<div onclick="showInnerConfirm(' + clid + ')" class="actiebutton tooltipped" data-position="top" data-tooltip="Verwijderen"><i class="material-icons">delete</i></div>';
     contactloghtml += '</div>' + '<div class="log-content">' + desc + '</div><div id="ipo-' + clid + '" class="inner-popup-overlay"></div><div id="ipc-' + clid + '" class="popup inner-confirm"><div class="buttons"><span class="button white" onclick="closeInnerConfirm(' + clid + ')">Annuleren</span><span class="button red" onclick="deleteCLogConfirm(' + contactid + ',' + clid + ')">Verwijderen</span></div></div></div></div>';
@@ -1371,9 +1376,11 @@ function getContactlogStr(contactid, id, item, isnew = false)
         '<a href="../upload/' + file_path + '" download class="actiebutton tooltipped" data-position="top" data-tooltip="Download"><i class="material-icons">file_download</i></a>' + 
         '</div>' +
         '<div class="flog-container">' + 
-        '<span class="fc-date">' + getFormatedDateTime(date) + '</span>' + 
-        '<span class="fc-user"><i class="material-icons">person</i>' + user + '</span>' +
-        '<p class="fc-desc">' + desc + '</p>' 
+        '<span class="fc-date">' + getFormatedDateTime(date) + '</span>';
+    if(user != null)
+        contactloghtml += '<span class="fc-user"><i class="material-icons">person</i>' + user + '</span>';
+         
+         contactloghtml += '<p class="fc-desc">' + desc + '</p>' 
         + 
         '</div>' ;
         contactloghtml += '<div id="ipo-' + clid + '" class="inner-popup-overlay"></div><div id="ipc-' + clid + '" class="popup inner-confirm"><div class="buttons"><span class="button white" onclick="closeInnerConfirm(' + clid + ')">Annuleren</span><span class="button red" onclick="deleteCLogConfirm(' + contactid + ',' + clid + ')">Verwijderen</span></div></div></div></div></div></div>';

@@ -318,8 +318,10 @@ function getFileLogHtml(item, isNew = false)
     }
     html += '</div>' +
     '<div class="flog-container">' + 
-    '<span class="fc-date">' + getFormatedDateTime(item['uploaded_date']) + '</span>' + 
-    '<span class="fc-user"><i class="material-icons">person</i>' + item['username'] + '</span>';
+    '<span class="fc-date">' + getFormatedDateTime(item['uploaded_date']) + '</span>';
+
+    if(item['username'] != null)
+    html += '<span class="fc-user"><i class="material-icons">person</i>' + item['username'] + '</span>';
 
     html += '<span class="fc-check">';
 	if(item['klantportaal'])

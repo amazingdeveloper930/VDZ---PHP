@@ -15,3 +15,11 @@ function addTodoZeeuw()
         $(item).attr('placeholder', "#" + (index + 1));
     });
 }
+
+function clearAllInputs()
+{
+    var frm = document.getElementById('gp-form');
+   frm.submit(); // Submit
+//    frm.reset();  // Reset
+   return false; // Prevent page refresh
+}
