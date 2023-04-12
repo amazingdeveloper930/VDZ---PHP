@@ -39,7 +39,7 @@ function getPrioSelect($contact_id, $value)
 if ($stmt = $con->prepare(
 	'SELECT C.id, C.name, C.city, C.address, C.email, C.phone, C.source, C.c_status, C.l_status, C.prio, CL.entry_type, CL.entry_date, Q.latest_quote_date, Q.pdf_file FROM contacts C LEFT JOIN (SELECT contact_id, entry_type, entry_date FROM contact_log WHERE entry_date IN ( SELECT MAX(entry_date) FROM contact_log WHERE entry_title = "lead" GROUP BY contact_id)) CL ON (C.id = CL.contact_id) 
 	LEFT JOIN (SELECT contact_id, pdf_file, MAX(quote_date) as latest_quote_date From quotes GROUP BY contact_id) Q ON (C.id = Q.contact_id)
-	 WHERE C.c_status = 3 ORDER BY id')) {	
+	 ORDER BY id')) {	
 
 	//$stmt->bind_param('i', 3); // only lead
 	$stmt->execute();
@@ -57,7 +57,7 @@ if ($stmt = $con->prepare(
 			<input hidden class="row_name" value="leads"/>
 			<input hidden class="row_table_id" value="<?=isset($_GET['id']) ? $_GET['id']: ''?>"/>
 			<div class="titlebar">
-				<div class="titlebarcontainer">
+				<div class="titlebarcontainer withbutton">
 					<h2>Leads
 						<div class="page-info tooltipped" data-position="top" data-tooltip="Meer informatie"
 							data-page-info="Een contact komt in dit scherm als de status van een contact in het funnel-scherm handmatig aangepast wordt naar Lead. Door in het logboek de status aan te passen naar 'Geen deal', verschuift een contact naar 'Inactieve Leads'. Elke andere status zet het contact weer terug naar 'Actieve leads'. Door de status aan te passen naar 'Deal', verdwijnt het contact uit dit scherm."
@@ -77,10 +77,12 @@ if ($stmt = $con->prepare(
 						</div>
 					</div>
 					<div style="clear:both"></div>
-				</div>				
+				</div>	
+				<span class="titlebarbutton button waves-effect waves-light btn" onclick="addContact()"><i class="material-icons">add</i> Toevoegen</span>			
 				<div style="clear:both"></div>
 			</div>			
 
+			<div style="clear:both"></div>
 			<div id="actieveleads" class="tab-content active">			
 				<table class="contacten-table lead-table full-w-table sort-table prio-table">
 					<thead>
@@ -196,7 +198,7 @@ if ($stmt = $con->prepare(
 			</div>
 		</div>		
 	<input type="hidden" value="<?=$root?>" id="root_path"/>
-	<!-- <script src="<?=$root;?>js/funnel.js" type="text/javascript"></script> -->
+	
 	<script src="<?=$root;?>js/lead.js" type="text/javascript"></script>
 	<script src="<?=$root;?>js/offerte.js" type="text/javascript"></script>
 	<script src="<?=$root;?>js/file_upload.js" type="text/javascript"></script>

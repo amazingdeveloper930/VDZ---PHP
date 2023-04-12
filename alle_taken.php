@@ -25,7 +25,7 @@ $result = null;
 if ($stmt = $con->prepare(
 	'SELECT C.id, C.name, C.city, C.address, C.email, C.phone, C.source, C.c_status, C.l_status, O.project_number, O.convert_date, O.startdatum, O.plaatsing  FROM contacts C
     LEFT JOIN projects O ON (C.id = O.contact_id)
-    WHERE C.c_status = 3 AND C.l_status = 1')) {	
+    WHERE C.l_status = 1')) {	
 
 	//$stmt->bind_param('i', 3); // only lead
 	$stmt->execute();
@@ -295,7 +295,7 @@ if ($stmt = $con->prepare("SELECT * FROM projects_tasks_chapters ORDER BY sort_o
 
 		</div>		
 	<input type="hidden" value="<?=$root?>" id="root_path"/>
-	<!-- <script src="<?=$root;?>js/funnel.js" type="text/javascript"></script> -->
+	
 	<script src="<?=$root;?>js/alle_taken.js" type="text/javascript"></script>
 	<script src="<?=$root;?>js/file_upload.js" type="text/javascript"></script>
 

@@ -27,7 +27,7 @@ $result_array = [];
 if ($stmt = $con->prepare(
 	'SELECT C.id, C.name, C.city, C.address, C.email, C.phone, O.project_number, O.convert_date, O.sale_date, O.p_status,O.m_status4, O.m_status5, O.m_status6, O.m_status7 FROM contacts C 
     LEFT JOIN projects O ON (C.id = O.contact_id)
-    WHERE C.c_status = 3 AND C.l_status = 1  AND O.as_status = 1 AND O.plaatsing = "nee" ORDER BY O.id ASC')) {	
+    WHERE C.l_status = 1  AND O.as_status = 1 AND O.plaatsing = "nee" ORDER BY O.id ASC')) {	
 
 	//$stmt->bind_param('i', 3); // only lead
 	$stmt->execute();
@@ -147,7 +147,7 @@ if ($stmt = $con->prepare(
 				if ($stmt = $con->prepare(
 					'SELECT C.id, C.name, C.city, C.address, C.email, C.phone, O.project_number, O.convert_date, O.sale_date, O.p_status,O.m_status4, O.m_status5, O.m_status6, O.m_status7 FROM contacts C 
 					LEFT JOIN projects O ON (C.id = O.contact_id)
-					WHERE C.c_status = 3 AND C.l_status = 1  AND O.as_status = 1 AND O.plaatsing = "ja" ORDER BY O.id ASC')) {	
+					WHERE C.l_status = 1  AND O.as_status = 1 AND O.plaatsing = "ja" ORDER BY O.id ASC')) {	
 
 					//$stmt->bind_param('i', 3); // only lead
 					$stmt->execute();
@@ -232,7 +232,7 @@ if ($stmt = $con->prepare(
 						'SELECT C.id, C.name, C.city, C.address, C.email, C.phone, O.project_number, O.convert_date, O.sale_date, O.p_status FROM contacts C 
 						LEFT JOIN projects O ON (C.id = O.contact_id)
 						JOIN (SELECT count(id) AS ticket_count, contact_id FROM projects_tickets WHERE status = "OPENED" GROUP BY contact_id ) PTC ON C.id = PTC.contact_id
-						WHERE C.c_status = 3 AND C.l_status = 1  AND O.as_status = 1   ORDER BY O.id ASC')) {	
+						WHERE C.l_status = 1  AND O.as_status = 1   ORDER BY O.id ASC')) {	
 
 						//$stmt->bind_param('i', 3); // only lead
 						$stmt->execute();
@@ -309,7 +309,7 @@ if ($stmt = $con->prepare(
 					'SELECT C.id, C.name, C.city, C.address, C.email, C.phone, O.project_number, O.convert_date, O.sale_date, O.p_status FROM contacts C 
 					LEFT JOIN projects O ON (C.id = O.contact_id)
 					JOIN (SELECT count(id) AS ticket_count, contact_id FROM projects_tickets WHERE status = "OPENED" GROUP BY contact_id ) PTC ON C.id = PTC.contact_id
-					WHERE C.c_status = 3 AND C.l_status = 1  AND O.as_status = 1 AND PTC.ticket_count > 0  ORDER BY O.id ASC')) {	
+					WHERE C.l_status = 1  AND O.as_status = 1 AND PTC.ticket_count > 0  ORDER BY O.id ASC')) {	
 
 					//$stmt->bind_param('i', 3); // only lead
 					$stmt->execute();
@@ -418,7 +418,7 @@ if ($stmt = $con->prepare(
 
 		</div>		
 	<input type="hidden" value="<?=$root?>" id="root_path"/>
-	<!-- <script src="<?=$root;?>js/funnel.js" type="text/javascript"></script> -->
+	
 	<script src="<?=$root;?>js/aftersales.js" type="text/javascript"></script>
 	<script src="<?=$root;?>js/offerte.js" type="text/javascript"></script>
 	<script src="<?=$root;?>js/file_upload.js" type="text/javascript"></script>

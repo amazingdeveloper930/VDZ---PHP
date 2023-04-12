@@ -4,7 +4,7 @@ require( '../../common/connection.php');
 require('../../common/global.php');
 
 
-if ($stmt = $con->prepare('SELECT C.name, C.city, C.address, C.email, C.phone, C.source, C.c_status, CL.entry_date FROM contacts C LEFT JOIN contact_log CL ON C.id = CL.contact_id Where C.id = ? AND C.c_status = 3 ORDER BY CL.entry_date DESC LIMIT 1')) {
+if ($stmt = $con->prepare('SELECT C.name, C.city, C.address, C.email, C.phone, C.source, C.c_status, CL.entry_date FROM contacts C LEFT JOIN contact_log CL ON C.id = CL.contact_id Where C.id = ? ORDER BY CL.entry_date DESC LIMIT 1')) {
 
 $stmt->bind_param('s', $_POST['contactid']);
 $stmt->execute();

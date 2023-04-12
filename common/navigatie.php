@@ -4,11 +4,10 @@
 	<img src="<?=$root;?>images/app-logo-mob.png" class="app-logo mob">
 	
 	<div class="menucontainer">
-		<a class="<?php if($currentpage == 'funnel') { echo "actief"; } ?>" href="/funnel/">Funnel</a>
+
 		<a class="<?php if($currentpage == 'leads' || $currentpage == 'salesplanning') { echo "actief"; } ?>" href="/leads/">Leads</a>
 		<a class="<?php if($currentpage == 'opdracht') { echo "actief"; } ?>" href="/opdracht/">Opdracht</a>
-		<a class="<?php if($currentpage == 'productie' || $currentpage == 'jaarplanning') { echo "actief"; } ?>" href="/productie/">Productie</a>
-		<a class="<?php if($currentpage == 'plaatsing') { echo "actief"; } ?>" href="/plaatsing/">Plaatsing</a>
+		<a class="<?php if($currentpage == 'planning' || $currentpage == 'jaarplanning') { echo "actief"; } ?>" href="/planning/">Planning</a>
 		<a class="<?php if($currentpage == 'aftersales') { echo "actief"; } ?>" href="/aftersales/">After sales</a>
 		<a class="<?php if($currentpage == 'bedrijfsvoering') { echo "actief"; } ?>" href="/bedrijfsvoering/">Bedrijfsvoering</a>
 		<div style="clear:both"></div>		

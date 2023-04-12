@@ -3,7 +3,7 @@
 session_start();
 // If the user is logged in redirect to the homepage..
 if (isset($_SESSION['loggedin'])) {
-	header('Location: /funnel');
+	header('Location: /leads');
 	exit();
 }
 ?>

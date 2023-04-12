@@ -151,10 +151,13 @@ function addNewContactTableRow() {
                 var email = result[i].email;
                 var phone = result[i].phone;
                 var l_status = result[i].l_status;
+                var prio_select_html = "<option value='0'>N.v.t</option>";
+                for(var j = 1; j <= 20; j ++ )
+                    prio_select_html += "<option value='" + j + "'>" + j + "</option>";
 
-                var html = "<tr contactrow='" + id + "'><td>" + name + "</td><td>" + city + "</td><td>" + address + "</td><td>" + email + "</td><td>" + phone + "</td><td></td><td></td><td></td><td></td><td></td><td><div onclick='manageProjectFileLog(" + id + ")' class='actiebutton tooltipped' data-position='top' data-tooltip='Bestanden'><i class='material-icons'>attach_file</i></div> <div onclick='manageContactLog(" + id + ")' class='actiebutton tooltipped' data-position='top' data-tooltip='Logboek'><i class='material-icons'>assignment</i></div> <div onclick='manageQuoteList(" + id + ")' class='actiebutton tooltipped' data-position='top' data-tooltip='Offerte'><i class='material-icons'>insert_drive_file</i></div> <div onclick='editContact(" + id + ")' class='actiebutton tooltipped' data-position='top' data-tooltip='Wijzigen'><i class='material-icons'>edit</i></div><div onclick='deleteLead(" + id + ")' class='actiebutton tooltipped' data-position='top' data-tooltip='Verwijderen'><i class='material-icons'>delete</i></div></td></tr>";
+                var html = "<tr contactrow='" + id + "'><td>" + name + "</td><td>" + city + "</td><td>" + address + "</td><td>" + email + "</td><td>" + phone + "</td><td>Nog te versturen</td><td></td><td><select onchange='changedPrio(" + id + ")' class='select-prio browser-default'>" + prio_select_html + "</select></td><td></td><td><div onclick='manageProjectFileLog(" + id + ")' class='actiebutton tooltipped' data-position='top' data-tooltip='Bestanden'><i class='material-icons'>attach_file</i></div> <div onclick='manageContactLog(" + id + ")' class='actiebutton tooltipped' data-position='top' data-tooltip='Logboek'><i class='material-icons'>assignment</i></div> <div onclick='manageQuoteList(" + id + ")' class='actiebutton tooltipped' data-position='top' data-tooltip='Offerte'><i class='material-icons'>insert_drive_file</i></div> <div onclick='editContact(" + id + ")' class='actiebutton tooltipped' data-position='top' data-tooltip='Wijzigen'><i class='material-icons'>edit</i></div><div onclick='deleteLead(" + id + ")' class='actiebutton tooltipped' data-position='top' data-tooltip='Verwijderen'><i class='material-icons'>delete</i></div></td></tr>";
 
-                var containerID = (lead_type[l_status] == 'Geen deal') ? '#activecontacten' : '#inactivecontacten';
+                var containerID = "#actieveleads";
 
                 $(containerID + " table").append(html);
                 $('.tooltipped').tooltip();
@@ -188,6 +191,8 @@ function editContact(contactid) {
                     $("#contactinfo #address").val(address);
                     $("#contactinfo #email").val(email);
                     $("#contactinfo #phone").val(phone);
+                    $("#contactinfo #source").val(result[i].source);
+                    $("#contactinfo #c_status").val(result[i].c_status);
 
                     var title = name + ((timer) ? timer : '') + '<span class="city">' + email + " - " + phone + '</span>';
                     $(".popup.large .title").html(title);

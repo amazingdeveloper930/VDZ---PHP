@@ -315,37 +315,29 @@ h2 {
     color: #f8b717;
 }
 
-.menucontainer a:nth-child(1) {
-    background-image: url(../images/menu-funnel.png), url(../images/menu-arrow-right.png);
-    padding-left: 28px;
-}
 
-.menucontainer a:nth-child(2) {
+.menucontainer a:nth-child(1) {
     background-image: url(../images/menu-leads.png), url(../images/menu-arrow-right.png);
     padding-left: 33px;
 }
 
-.menucontainer a:nth-child(3) {
+.menucontainer a:nth-child(2) {
     background-image: url(../images/menu-opdracht.png), url(../images/menu-arrow-right.png);
     padding-left: 28px;
 }
 
-.menucontainer a:nth-child(4) {
+.menucontainer a:nth-child(3) {
     background-image: url(../images/menu-productie.png), url(../images/menu-arrow-right.png);
     padding-left: 30px;
 }
 
-.menucontainer a:nth-child(5) {
-    background-image: url(../images/menu-plaatsing.png), url(../images/menu-arrow-right.png);
-    padding-left: 32px;
-}
 
-.menucontainer a:nth-child(6) {
+.menucontainer a:nth-child(4) {
     background-image: url(../images/menu-aftersales.png), url(../images/menu-arrow-right.png);
     padding-left: 30px;
 }
 
-.menucontainer a:nth-child(7) {
+.menucontainer a:nth-child(5) {
     background-image: url(../images/menu-opdracht.png);
     padding-left: 28px;
 }
@@ -4334,36 +4326,27 @@ right:100px;
 }
 
 .menucontainer a:nth-child(1) {
-    background-image: url(../images/menu-funnel.png);
-    padding-left: 28px;
-}
-
-.menucontainer a:nth-child(2) {
     background-image: url(../images/menu-leads.png);
     padding-left: 33px;
 }
 
-.menucontainer a:nth-child(3) {
+.menucontainer a:nth-child(2) {
     background-image: url(../images/menu-opdracht.png);
     padding-left: 28px;
 }
 
-.menucontainer a:nth-child(4) {
+.menucontainer a:nth-child(3) {
     background-image: url(../images/menu-productie.png);
     padding-left: 30px;
 }
 
-.menucontainer a:nth-child(5) {
-    background-image: url(../images/menu-plaatsing.png);
-    padding-left: 32px;
-}
 
-.menucontainer a:nth-child(6) {
+.menucontainer a:nth-child(4) {
     background-image: url(../images/menu-aftersales.png);
     padding-left: 30px;
 }
 
-.menucontainer a:nth-child(7) {
+.menucontainer a:nth-child(5) {
     background-image: url(../images/menu-opdracht.png);
     padding-left: 28px;
 }

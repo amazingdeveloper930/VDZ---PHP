@@ -2,14 +2,14 @@
 require 'common/sessie_check.php';
 require 'common/global.php';
 
-$currentpage = 'productie';
+$currentpage = 'planning';
 ?>
 
 <!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>Productie - Van der Zeeuw Bouw Ordersysteem</title>	
+		<title>Planning - Van der Zeeuw Bouw Ordersysteem</title>	
 
 		<?php include 'common/header.php'; ?>		
 
@@ -26,12 +26,12 @@ $result = null;
 if ($stmt = $con->prepare(
 	'SELECT C.id, C.name, C.city, C.address, C.email, C.phone, C.source, C.c_status, C.l_status, O.project_number, O.convert_date, O.startdatum, O.p_status,O.m_status1, O.m_status2, O.m_status3 FROM contacts C 
     LEFT JOIN projects O ON (C.id = O.contact_id)
-    WHERE C.c_status = 3 AND C.l_status = 1  AND O.plaatsing = "nee" AND O.startdatum is not NULL ORDER BY O.startdatum ASC')) {	
+    WHERE C.l_status = 1  AND O.plaatsing = "nee" AND O.startdatum is not NULL ORDER BY O.startdatum ASC')) {	
 
 	/*
 SELECT C.id, C.name, C.city, C.address, C.email, C.phone, C.source, C.c_status, C.l_status, O.project_number, O.convert_date, O.startdatum, O.p_status,O.m_status1, O.m_status2, O.m_status3 FROM contacts C 
     LEFT JOIN projects O ON (C.id = O.contact_id)
-    WHERE C.c_status = 3 AND C.l_status = 1 AND O.p_status = 1 AND O.geplaatst = "nee" ORDER BY O.startdatum ASC
+    WHERE C.l_status = 1 AND O.p_status = 1 AND O.geplaatst = "nee" ORDER BY O.startdatum ASC
 	*/
 
 	//$stmt->bind_param('i', 3); // only lead
@@ -71,7 +71,7 @@ SELECT C.id, C.name, C.city, C.address, C.email, C.phone, C.source, C.c_status, 
 		<input hidden class="row_table_id" value="<?=isset($_GET['id']) ? $_GET['id']: ''?>"/>
         <div class="titlebar">
 				<div class="titlebarcontainer">
-					<h2>Productie
+					<h2>Planning
 						<div class="page-info tooltipped" data-position="top" data-tooltip="Meer informatie"
 							data-page-info="Een project komt in de onderste tabel in dit scherm terecht, 8 weken voor de 'startdatum'. Na 4 weken staat het project in de bovenste tabel. Een project verlaat dit scherm zodra 'Geplaatst?' ingesteld staat op 'Ja' in de taken popup."
 						>
@@ -271,7 +271,7 @@ SELECT C.id, C.name, C.city, C.address, C.email, C.phone, C.source, C.c_status, 
 						'SELECT C.id, C.name, C.city, C.address, C.email, C.phone, O.project_number, O.convert_date, O.sale_date, O.p_status FROM contacts C 
 						LEFT JOIN projects O ON (C.id = O.contact_id)
 						JOIN (SELECT count(id) AS ticket_count, contact_id FROM projects_tickets WHERE status = "OPENED" GROUP BY contact_id ) PTC ON C.id = PTC.contact_id
-						WHERE C.c_status = 3 AND C.l_status = 1  AND O.plaatsing = "nee" AND O.startdatum is not NULL   ORDER BY O.id ASC')) {	
+						WHERE C.l_status = 1  AND O.plaatsing = "nee" AND O.startdatum is not NULL   ORDER BY O.id ASC')) {	
 
 						//$stmt->bind_param('i', 3); // only lead
 						$stmt->execute();
@@ -342,8 +342,8 @@ SELECT C.id, C.name, C.city, C.address, C.email, C.phone, C.source, C.c_status, 
 
 		</div>		
 	<input type="hidden" value="<?=$root?>" id="root_path"/>
-	<!-- <script src="<?=$root;?>js/funnel.js" type="text/javascript"></script> -->
-	<script src="<?=$root;?>js/productie.js" type="text/javascript"></script>
+	
+	<script src="<?=$root;?>js/planning.js" type="text/javascript"></script>
 	<script src="<?=$root;?>js/offerte.js" type="text/javascript"></script>
 	<script src="<?=$root;?>js/file_upload.js" type="text/javascript"></script>
 

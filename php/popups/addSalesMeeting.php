@@ -10,7 +10,7 @@
 
     if ($stmt = $con->prepare(
         'SELECT C.id, C.name, C.city, C.address, C.email, C.phone, C.source, C.c_status, C.l_status FROM contacts C
-        WHERE C.c_status = 3 AND C.l_status != 1')) {	
+        WHERE C.l_status != 1')) {	
 
         //$stmt->bind_param('i', 3); // only lead
         $stmt->execute();

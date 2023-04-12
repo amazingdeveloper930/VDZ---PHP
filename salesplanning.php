@@ -26,7 +26,7 @@ $result = null;
 if ($stmt = $con->prepare(
 	'SELECT C.id, C.name, C.city, C.address, C.email, C.phone, C.source, C.c_status, C.l_status, CL.entry_type, CL.entry_date, Q.latest_quote_date, Q.pdf_file FROM contacts C LEFT JOIN (SELECT contact_id, entry_type, entry_date FROM contact_log WHERE id IN ( SELECT MAX(id) FROM contact_log WHERE contact_type = "lead" GROUP BY contact_id)) CL ON (C.id = CL.contact_id) 
 	LEFT JOIN (SELECT contact_id, pdf_file, MAX(quote_date) as latest_quote_date From quotes GROUP BY contact_id) Q ON (C.id = Q.contact_id)
-	 WHERE C.c_status = 3')) {	
+	 ')) {	
 
 	//$stmt->bind_param('i', 3); // only lead
 	$stmt->execute();
@@ -88,7 +88,7 @@ if ($stmt = $con->prepare(
             </div>
 		</div>		
 	<input type="hidden" value="<?=$root?>" id="root_path"/>
-	<!-- <script src="<?=$root;?>js/funnel.js" type="text/javascript"></script> -->
+	
 	<script src="<?=$root;?>js/salesplanning.js" type="text/javascript"></script>
 
 <?php include 'common/footer.php'; ?>

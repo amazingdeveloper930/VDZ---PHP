@@ -51,17 +51,17 @@ if($stmt = $con -> prepare('SELECT P.*, C.name, C.address FROM projects P Join c
 		
         <div class="titlebar">
 				<div class="titlebarcontainer" >
-					<h2>Productie</h2>
+					<h2>Planning</h2>
 					<div class="submenu">					
 						<div class="row">
 							<div class="col s12">
 								<ul class="">
-									<li class=" col"><a href="/productie">Projecten</a></li>
+									<li class=" col"><a href="/planning">Projecten</a></li>
 									
 									<li class=" col"><a href="/weekplanning">Medewerker planning</a></li>
 									<li class=" col"><a class="actief" href="/werkplanning">Projectplanning</a></li>
 									<li class=" col"><a href="/jaarplanning">Jaarplanning</a></li>
-                                   					<li class=" col"><a href="/productie#opentickets">Open tickets</a></li>
+                                   					<li class=" col"><a href="/planning#opentickets">Open tickets</a></li>
                           
 								</ul>
 							</div>
@@ -110,7 +110,7 @@ if($stmt = $con -> prepare('SELECT P.*, C.name, C.address FROM projects P Join c
 
 		</div>		
 	<input type="hidden" value="<?=$root?>" id="root_path"/>
-	<!-- <script src="<?=$root;?>js/funnel.js" type="text/javascript"></scrip> -->
+	
 	<script src="<?=$root;?>js/werkplanning.js" type="text/javascript"></script>
 
 <?php include 'common/footer.php'; ?>

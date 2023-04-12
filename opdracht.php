@@ -27,7 +27,7 @@ if ($stmt = $con->prepare(
 	'SELECT C.id, C.name, C.city, C.address, C.email, C.phone, C.source, C.c_status, C.l_status, CL.entry_type, CL.entry_date, O.project_number, O.convert_date, O.startdatum, O.plaatsing, PT.name as last_task_name FROM contacts C LEFT JOIN (SELECT contact_id, entry_type, entry_date FROM contact_log WHERE id IN ( SELECT MAX(id) FROM contact_log GROUP BY contact_id)) CL ON (C.id = CL.contact_id) 
     LEFT JOIN projects O ON (C.id = O.contact_id)
 	LEFT JOIN projects_tasks PT ON (O.last_completed_task = PT.id)
-    WHERE C.c_status = 3 AND C.l_status = 1')) {	
+    WHERE C.l_status = 1')) {	
 
 	//$stmt->bind_param('i', 3); // only lead
 	$stmt->execute();
@@ -181,7 +181,7 @@ if ($stmt = $con->prepare(
 						'SELECT C.id, C.name, C.city, C.address, C.email, C.phone, O.project_number, O.convert_date, O.sale_date, O.p_status FROM contacts C 
 						LEFT JOIN projects O ON (C.id = O.contact_id)
 						JOIN (SELECT count(id) AS ticket_count, contact_id FROM projects_tickets WHERE status = "OPENED" GROUP BY contact_id ) PTC ON C.id = PTC.contact_id
-						WHERE C.c_status = 3 AND C.l_status = 1  ORDER BY O.id ASC')) {	
+						WHERE C.l_status = 1  ORDER BY O.id ASC')) {	
 
 						//$stmt->bind_param('i', 3); // only lead
 						$stmt->execute();
@@ -252,7 +252,7 @@ if ($stmt = $con->prepare(
 		</div>	
 			
 	<input type="hidden" value="<?=$root?>" id="root_path"/>
-	<!-- <script src="<?=$root;?>js/funnel.js" type="text/javascript"></script> -->
+	
 	<script src="<?=$root;?>js/opdracht.js" type="text/javascript"></script>
 	<script src="<?=$root;?>js/offerte.js" type="text/javascript"></script>
 	<script src="<?=$root;?>js/file_upload.js" type="text/javascript"></script>

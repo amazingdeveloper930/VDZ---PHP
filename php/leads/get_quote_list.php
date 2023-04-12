@@ -9,7 +9,7 @@ if ($stmt = $con->prepare( 'SELECT quotes.*, accounts.username, contacts.name, c
                             ON quotes.account_id = accounts.id
                             LEFT JOIN contacts
                             ON quotes.contact_id = contacts.id
-                            WHERE quotes.contact_id = ? AND contacts.c_status = 3
+                            WHERE quotes.contact_id = ?
                             ORDER BY quotes.quote_date DESC' ) ) {
 
 $stmt->bind_param('i', $_POST['contactid']);
@@ -32,7 +32,7 @@ while ($row = $result->fetch_assoc()) {
 if ($stmt = $con->prepare( 'SELECT C.name, C.email, C.phone, CL.entry_title, CL.entry_date FROM contacts as C
                             LEFT JOIN contact_log CL
                             ON C.id = CL.contact_id 
-                            Where C.id = ? AND C.c_status = 3 
+                            Where C.id = ?
                             ORDER BY CL.entry_date DESC LIMIT 1
                             ' )) {
                                 
@@ -60,7 +60,7 @@ while ($row = $result->fetch_assoc()) {
     
 }
 $contacts = [];
-$stmt = $con -> prepare("SELECT C.id, C.name, C.address FROM contacts C WHERE C.c_status = 3 ORDER BY C.address");
+$stmt = $con -> prepare("SELECT C.id, C.name, C.address FROM contacts C ORDER BY C.address");
 $stmt -> execute();
 $result = $stmt->get_result();
 while ($row = $result->fetch_assoc()) {

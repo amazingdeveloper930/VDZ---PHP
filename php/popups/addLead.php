@@ -31,6 +31,27 @@
 				<label for="phone">Telefoonnummer</label>
 			</div>
 		</div>
-
+		<div class="row">
+			<div class="col s6">
+				<label	label for="source">Bron</label>
+				<select id="source" name="source" class='browser-default'>
+					<?php 
+					foreach (SOURCE_LIST as $key => $value) {
+						echo '<option value="'.$key.'">'.$value.'</option>';
+					}
+					?>
+				</select>
+				
+			</div>
+			<div class=" col s6">
+				<label for="c_status">Status <i class="helper tiny material-icons">help</i></label>
+				<select id="c_status" name="c_status" class='browser-default'>
+					<option value="1">Actief</option>
+					<option value="2">Inactief</option>
+					<option value="3">Lead</option>
+				</select>
+				
+			</div>
+		</div>
 		<div class="bottombuttons"> <span class="button waves-effect waves-light btn full" onclick="saveContactInfo()">Opslaan</span> </div>
 	</form>

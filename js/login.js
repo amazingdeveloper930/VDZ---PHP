@@ -55,7 +55,7 @@ var data=$("#loginform").serializeArray();
 	//$(".sidebar").addClass('grey');
 	}, 500);	
 	setTimeout(function(){ 
-	window.location.href = "http://127.0.0.1:8000/funnel/";
+	window.location.href = "http://127.0.0.1:8000/leads/";
 	}, 1000);
 		
 	} else {

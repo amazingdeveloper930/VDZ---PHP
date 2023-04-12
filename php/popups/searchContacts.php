@@ -66,8 +66,8 @@
                                 }
                                     
                                 else {
-                                    $type = 'Productie';
-                                    $link = '/productie/?id=' . $row['id'];
+                                    $type = 'Planning';
+                                    $link = '/planning/?id=' . $row['id'];
                                 }
                                     
                             }

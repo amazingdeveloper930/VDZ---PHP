@@ -9,7 +9,7 @@ $currentpage = 'jaarplanning';
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>Productie - Van der Zeeuw Bouw Ordersysteem</title>	
+		<title>Planning - Van der Zeeuw Bouw Ordersysteem</title>	
 
 		<?php include 'common/header.php'; ?>		
 
@@ -35,17 +35,17 @@ $result = null;
 		
         <div class="titlebar">
 				<div class="titlebarcontainer">
-					<h2>Productie</h2>
+					<h2>Planning</h2>
 					<div class="submenu">					
 						<div class="row">
 							<div class="col s12">
 								<ul class="">
-									<li class=" col"><a href="/productie">Projecten</a></li>
+									<li class=" col"><a href="/planning">Projecten</a></li>
 									
 									<li class=" col"><a href="/weekplanning">Medewerker planning</a></li>
 									<li class=" col"><a href="/werkplanning">Projectplanning</a></li>
 									<li class=" col"><a class="actief" href="/jaarplanning">Jaarplanning</a></li>
-									<li class=" col"><a href="/productie#opentickets">Open tickets</a></li>
+									<li class=" col"><a href="/planning#opentickets">Open tickets</a></li>
 									
 								</ul>
 							</div>
@@ -97,7 +97,7 @@ $result = null;
 
 		</div>		
 	<input type="hidden" value="<?=$root?>" id="root_path"/>
-	<!-- <script src="<?=$root;?>js/funnel.js" type="text/javascript"></script> -->
+	
 	<script src="<?=$root;?>js/jaarplanning.js" type="text/javascript"></script>
 
 <?php include 'common/footer.php'; ?>
