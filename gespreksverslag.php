@@ -98,13 +98,13 @@ require( 'common/connection.php');
                     <div class="gespre-widget-body">
                         <div class="gw-form-container">
                             <label>Project</label>
-                            <select id="gp_project" name="gp_project" required>
+                            <select id="gp_project" name="gp_project" required onchange="changedGpProject()">
                             <option disabled selected >
                                 Kies het projectnummer
                             </option>
                             <?php                 
                                 while ($row = $result->fetch_assoc()) {
-                                    echo "<option value=" . $row['contact_id']  . ">#" . $row['project_number'] . " / " . $row['address'] . "</option>";
+                                    echo "<option data-name=\"" . $row['name'] . "\" value=" . $row['contact_id']  . ">#" . $row['project_number'] . " / " . $row['address'] . "</option>";
                                 }
 
                             ?>
@@ -140,7 +140,7 @@ require( 'common/connection.php');
                     <h4 class="gespre-widget-header">To-do’s</h4>
                     <div class="gespre-widget-body">
                         <div class="gw-form-container">
-                            <label>To-do’s *voornaam*</label>
+                            <label>To-do’s <span id="gw-voornaam">*voornaam</span></label>
                             <div class="gw-todo-list-box gw-todo-voor"></div>
                             <button class="gp-add-todo" type="button" onclick="addTodoVoor()"><span class="gp-add-todo-label">Veld toevoegen</span><i class="material-icons">add_circle</i></button>
                         </div>
@@ -152,6 +152,38 @@ require( 'common/connection.php');
                     </div>
                 </div>
             </div>
+            <div class="gespre-item">
+                <div class="gespre-widget">
+                    <h4 class="gespre-widget-header">Personen</h4>
+                    <div class="gespre-widget-body">
+                        <div class="gw-form-container">
+                            <label>Deze personen waren aanwezig</label>
+                            <div class="gw-todo-list-box gw-personen"></div>
+                            <button class="gp-add-todo" type="button" onclick="addPerson()"><span class="gp-add-todo-label">Persoon toevoegen</span><i class="material-icons">add_circle</i></button>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+
+            <div class="gespre-item">
+                <div class="gespre-widget">
+                    <h4 class="gespre-widget-header">Afbeeldingen toevoegen</h4>
+                    <div class="gespre-widget-body">
+                        <div class="gw-form-container">
+                            <label>Upload hier de afbeeldingen</label>
+                            <div class="input-div">
+                                <p>Sleep hier je bestanden naar toe of klik om te uploaden</p>
+                                <input type="file" class="file image-input" multiple="multiple" accept="image/jpeg, image/png, image/jpg" onchange="fileChanged()" ondrop="fileDroped(event)">
+                            </div>
+
+                            <output></output>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+
         </div>
 
         <div class="gespre-footer">

@@ -16,11 +16,11 @@ if($_POST['contactid'] == '') { //New contact
   if ($stmt = $con->prepare('SELECT id FROM contacts WHERE email = ?')) {
 
       // email doesnt exists, insert new account
-      if ($stmt = $con->prepare('INSERT INTO contacts (name, city, address, email, phone, source, c_status, l_status, created_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)')) {
+      if ($stmt = $con->prepare('INSERT INTO contacts (name, city, address, email, phone, l_status, created_date) VALUES ( ?, ?, ?, ?, ?, ?, ?)')) {
         $l_status = 0;
         $date = date_create();
 		    $dt = $date->format("Y-m-d");
-        $stmt->bind_param('sssssiiss', $_POST['name'], $_POST['city'], $_POST['address'], $_POST['email'], $_POST['phone'], $_POST['source'], $_POST['c_status'], $l_status, $dt);
+        $stmt->bind_param('sssssss', $_POST['name'], $_POST['city'], $_POST['address'], $_POST['email'], $_POST['phone'], $l_status, $dt);
         $stmt->execute();
         echo 'Lead opgeslagen.';
       } else {
@@ -43,11 +43,11 @@ if ($stmt = $con->prepare('SELECT id FROM contacts WHERE (name = ? OR email = ?)
 	
 
 	
-	$query = 'UPDATE contacts SET name = ?, city = ?, address = ?, email = ?, phone = ?, source = ?, c_status = ? WHERE id = ?';		
+	$query = 'UPDATE contacts SET name = ?, city = ?, address = ?, email = ?, phone = ?  WHERE id = ?';		
 
 	if ($stmt = $con->prepare($query)) {
 	// We do not want to expose passwords in our database, so hash the password and use password_verify when a user logs in.
-		$stmt->bind_param('sssssssi', $_POST['name'], $_POST['city'], $_POST['address'], $_POST['email'], $_POST['phone'], $_POST['source'], $_POST['c_status'], $_POST['contactid']);
+		$stmt->bind_param('sssssi', $_POST['name'], $_POST['city'], $_POST['address'], $_POST['email'], $_POST['phone'], $_POST['contactid']);
 		$stmt->execute();
 		echo 'Lead opgeslagen.';
 

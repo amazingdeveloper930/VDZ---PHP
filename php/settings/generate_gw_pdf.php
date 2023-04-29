@@ -79,26 +79,28 @@ body{
 }
 .panel-title{
     width : 100%;
-    height: 375px;
+    height: 305px;
     position: relative;
 }
 #text-date{
-    color : white;
-    margin-left: 36px;
-    padding-top : 270px;
+    color : #2c9ad5;
+    margin-left: 38px;
+    padding-top : 150px;
 }
 .panel-first{
     width : 100%;
     height: 160px;
     
 }
-
+.vertical-top {
+    vertical-align: top;
+  }
 
 #table-project-info{
     width : 100%;
     text-align : left;
     margin-left : 32px;
-    margin-top : 23px;
+    margin-top : -20px;
 }
 #table-project-info th{
     font-weight : bold;
@@ -122,21 +124,21 @@ $html .= "<p id='text-date'>" . $date . "</p></div>";
 $html .= "<div class='panel-first'>";
 $html .= "<table id='table-project-info'><thead>
 <tr>
-<th style='width : 50%'>Project</th>
-<th style='width : 25%'></th>
-<th style='width : 25%'></th>
+<th style='width : 50%'>Voornaam Achternaam</th>
+<th style='width : 40%'>&nbsp;</th>
+<th style='width : 10%'>Projectnummer</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>
-#" . $row['project_number'] . " / " . $row['address'] . "<br/>" 
+". $row['address'] . "<br/>" 
 . $row['email'] . "<br/>" 
 . $row['phone'] . 
 "
 </td><td>
 
-</td><td></td>
+</td><td class='vertical-top'>#"  . $row['project_number'] . "</td>
 </tr>
 </tbody></table>";
 $html .= "</div>";
@@ -245,6 +247,14 @@ height : 440px;
     padding-right : 10px;
 }
 
+.panel-fifth{
+    width : 100%;
+
+}
+
+.panel-fifth .person{
+    line-height : 25px;
+}
 </style>
 </head>
 <body>
@@ -271,7 +281,24 @@ $html .= '
         $html .= "<div class='item'>" . $item . "</div>";
     }
 
-$html .=    '</div>
+$html .=    '</div>';
+if(isset($_POST['gw_person']))
+{
+    $html .= '<div class="panel-fifth">
+    <p class="txt-strong">Deze personen waren aanwezig:</p>'; 
+    foreach($_POST['gw_person'] as $item)
+    {
+        $html .= "<div class='person'>" . $item . "</div>";
+    }
+    $html .= '</div>';
+}
+
+
+
+
+
+$html .=
+'
 </div>
 <htmlpagefooter name="pagefooter" style="display:none">
     <div class="fullwidth">
@@ -285,6 +312,76 @@ $html .=    '</div>
 
 
 $mpdf->WriteHTML($html);
+
+
+if(isset($_POST['image_path'])){
+$mpdf->AddPageByArray([
+    'margin-left' => '0',
+    'margin-right' => '0',
+    'margin-top' => '40',
+    'margin-bottom' => '0'
+]);
+
+$html = '<html>
+
+<head>
+
+<style>
+
+
+body{
+    background-image: url("'.__DIR__.'/../../images/gesprekverslag-pdf-leeg-3.jpg");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: top left;
+    background-image-resize: 4;
+    background-image-resolution: from-image;
+    font-size : 18px;
+    font-family: Asap;
+
+}
+.panel-sixth{
+    width : 100%;
+}
+.image-bijlagen{
+    max-width : 90%;
+    margin-left : 5%;
+    margin-top : 30px;
+}
+</style>
+</head>
+<body>
+';
+
+$html .= "<div class='panel-sixth'>";
+
+foreach($_POST['image_path'] as $img)
+{
+    $html .= "<img class='image-bijlagen' src='" .__DIR__.'/../../upload/' . $img .  "'/>";
+
+    
+}
+$html .=
+'
+</div>
+<htmlpagefooter name="pagefooter" style="display:none">
+    <div class="fullwidth">
+
+        
+    </div>
+</htmlpagefooter>
+<sethtmlpagefooter name="pagefooter" value="on" />
+</body>
+</html>';
+
+
+$mpdf->WriteHTML($html);
+foreach($_POST['image_path'] as $img)
+{
+    unlink(__DIR__ . '/../../upload/' . $img);
+}
+}
+
 function generateRandomString($length = 10, $hasNumber = false, $hasLowercase = true, $hasUppercase = false): string
 {
     $string = '';
@@ -297,11 +394,12 @@ function generateRandomString($length = 10, $hasNumber = false, $hasLowercase = 
     return substr(str_shuffle(str_repeat($x = $string, ceil($length / strlen($x)))), 1, $length);
 }
 
-// $date = date_create();
-// $dt = $date->format("Y_m_d_H_i_s");
-$file_name = generateRandomString(10) . ".pdf";
+$date = date_create();
+$dt = $date->format("d-m-Y");
+$file_name = generateRandomString(10) . "_" .  $dt . ".pdf";
 $mpdf->Output('upload/'.$file_name,'F'); 
 $mpdf->Output($file_name,'D'); 
+// exit();
 
 require( 'common/connection.php');
 
@@ -311,7 +409,7 @@ if ($stmt = $con -> prepare('INSERT projects_file (contact_id, name, file_type, 
     $date = date_create();
     $dt = $date->format("Y-m-d H:i:s");
     $name = 'Gespreksverslag ' . ($date->format("d-m-Y"));
-    $klantportaal = 0;
+    $klantportaal = 1;
     $user_id = 0;
     $folder_id = 0;
     $fileEXE = 'pdf';

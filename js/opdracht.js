@@ -1,4 +1,4 @@
-var status_list = ['', 'Active', 'Inactive', 'Lead'];
+
 var source_list = ['', 'Facebook', 'Website', 'Adwords'];
 var contact_type = ['', 'E-mail', 'Telefoon', 'Gesprek', 'Whatsapp'];
 var lead_type = ['', 'Deal', 'Geen deal', 'Wijzigen offerte', 'Wacht op antwoord', 'Afspraak'];
@@ -48,8 +48,6 @@ function saveContactInfo() {
     let address = $("#contactinfo #address").val();
     let email = $("#contactinfo #email").val();
     let phone = $("#contactinfo #phone").val();
-    //let source = $("#contactinfo #source").val();
-    //let c_status = $("#contactinfo #c_status").val();
     let errors = "";
     if (user == '') {
         errors = "error";

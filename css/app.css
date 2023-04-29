@@ -1810,6 +1810,67 @@ body.popup-active {
     background: #1EBC2E;
 }
 
+.gespre-item .input-div {
+    width: 100%;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border: 1px dotted #D0D0D0;
+    background-color: white;
+    position: relative;
+  }
+  
+  .gespre-item .image-input {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+  }
+  
+  .gespre-item output {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 15px;
+    position: relative;
+    border-radius: 5px;
+    padding-top: 10px;
+  }
+  
+  .gespre-item output .image {
+    height: 150px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .gespre-item output .image img {
+    height: 100%;
+    width: 100%;
+  }
+  
+  .gespre-item output .image span {
+    position: absolute;
+    top: -4px;
+    right: 4px;
+    cursor: pointer;
+    font-size: 22px;
+    color: white;
+  }
+  
+  .gespre-item output .image span:hover {
+    opacity: 0.8;
+  }
+  
+  .gespre-item output .span--hidden {
+    visibility: hidden;
+  }
+
 .chapter-header input[type=text] {
     margin: 4px 0;
     border-bottom: none;
@@ -2969,6 +3030,32 @@ table.sort-table-group th.sort1::before{
 @media only screen and (max-width: 700px){
     #img-modal .modal-content {
       width: 100%;
+    }
+
+    .gespreksverslag{
+        padding-left: 30px !important;
+    }
+
+    .gespreksverslag-content{
+        padding: 25px !important;
+    }
+    .gespre-container .gespre-item{
+        width: 100% !important;
+    }
+    .gespre-container{
+        grid-template-columns: auto;
+    }
+    /* .gespreksverslag-menubalk::before{
+        border-bottom: 40px solid #002c5c !important;
+        border-left: 20px solid transparent !important;
+    }
+    .gespreksverslag-menubalk{
+        height: 40px !important;
+    } */
+    .gespreksverslag-menubalk
+    {
+        transform: scale(0.5);
+        transform-origin: right top;
     }
   }
 

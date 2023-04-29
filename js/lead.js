@@ -1,4 +1,4 @@
-var source_list = ['', 'Facebook', 'Website', 'Adwords'];
+
 var lead_type = ['', 'Deal', 'Geen deal', 'Wijzigen offerte', 'Wacht op antwoord'];
 var contact_type = ['', 'E-mail', 'Telefoon', 'Gesprek', 'Whatsapp'];
 
@@ -93,8 +93,6 @@ function saveContactInfo() {
     let address = $("#contactinfo #address").val();
     let email = $("#contactinfo #email").val();
     let phone = $("#contactinfo #phone").val();
-    //let source = $("#contactinfo #source").val();
-    //let c_status = $("#contactinfo #c_status").val();
     let errors = "";
     if (user == '') {
         errors = "error";
@@ -191,8 +189,7 @@ function editContact(contactid) {
                     $("#contactinfo #address").val(address);
                     $("#contactinfo #email").val(email);
                     $("#contactinfo #phone").val(phone);
-                    $("#contactinfo #source").val(result[i].source);
-                    $("#contactinfo #c_status").val(result[i].c_status);
+                    
 
                     var title = name + ((timer) ? timer : '') + '<span class="city">' + email + " - " + phone + '</span>';
                     $(".popup.large .title").html(title);
