@@ -29,10 +29,11 @@ $mpdf->SetTitle("Vanderzeeuwbouw.nl");
 $mpdf->AddPageByArray([
     'margin-left' => '0',
     'margin-right' => '0',
-    'margin-top' => '0',
-    'margin-bottom' => '0',
+    'margin-top' => '20',
+    'margin-bottom' => '35',
     'resetpagenum' => '1'
 ]);
+// $mpdf->AddPage();
 
 $mpdf->SetDisplayMode('fullpage');
 $todo = '<strong>To-do’s *voornaam* </strong>:<br/>';
@@ -64,11 +65,17 @@ $result = $stmt -> get_result();
 $row = $result->fetch_assoc();
 
 $date = date('d-m-Y');
+
+
+// $mpdf->SetHTMLHeader('<img src="'.__DIR__.'/../../images/gesprekverslag-pdf-leeg-4.jpg" alt="" style="width:100%;height:100%;position:absolute;top:0;left:0;" />');
+
 $html = '<html><head></head>
 <style>
+
+
 body{
 
-    background-image: url("'.__DIR__.'/../../images/gesprekverslag-pdf-leeg-1.jpg");
+    background-image: url("'.__DIR__.'/../../images/gesprekverslag-pdf-leeg-2.jpg");
     background-repeat: no-repeat;
     background-size: contain;
     background-position: top left;
@@ -76,21 +83,45 @@ body{
     background-image-resolution: from-image;
     font-size : 18px;
     font-family: Asap;
+    position: relative;
+    padding: 10mm !important;
 }
+
+.dark-blue-bar{
+    color: white;
+    font-weight : bold;
+    width : 400px;
+    height : 10mm;
+    background-image: url("'.__DIR__.'/../../images/label.png");
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-position: top left;
+    background-image-resolution: from-image;
+    padding-left:10mm;
+    font-size: 20px;
+    padding-top : 2mm;
+    z-index : 100;
+}
+
+
 .panel-title{
     width : 100%;
-    height: 305px;
-    position: relative;
+    height: 200px;
+    z-index : 100;
+    padding-left : 10mm;
 }
 #text-date{
     color : #2c9ad5;
-    margin-left: 38px;
-    padding-top : 150px;
+    // margin-left: 38px;
+    padding-top : 75px;
+    z-index : 100;
 }
 .panel-first{
     width : 100%;
-    height: 160px;
-    
+    height: 180px;
+    z-index : 100;
+    padding-left : 10mm;
+    padding-right : 30mm;
 }
 .vertical-top {
     vertical-align: top;
@@ -99,7 +130,7 @@ body{
 #table-project-info{
     width : 100%;
     text-align : left;
-    margin-left : 32px;
+    margin-right : -250px;
     margin-top : -20px;
 }
 #table-project-info th{
@@ -110,21 +141,41 @@ body{
 .panel-second{
     width : 100%;
 }
-#txt-samenvatting{
-    width : 55%;
+.txt-samenvatting{
+    width : 90%;
 
     padding-left : 35px;
-    margin-top : 60px;
+    margin-top : 0px;
     line-height : 26px;
+    // max-height: 100px;
+    // overflow: hidden;
+    z-index : 100;
+}
+.first-background{
+    background-image: url("'.__DIR__.'/../../images/gesprekverslag-pdf-leeg-1.jpg");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: top left;
+    background-image-resize: 4;
+    background-image-resolution: from-image;
+    width : 100%;
+    height : 100%;
+    z-index : -1;
+    position: absolute;
+
+    top:0px;
+    left : 0px;
 }
 </style>
 <body>
+<div class="first-background">
+</div>
 <div class="panel-title">';
 $html .= "<p id='text-date'>" . $date . "</p></div>";
 $html .= "<div class='panel-first'>";
 $html .= "<table id='table-project-info'><thead>
 <tr>
-<th style='width : 50%'>Voornaam Achternaam</th>
+<th style='width : 50%'>" . $row['name'] . "</th>
 <th style='width : 40%'>&nbsp;</th>
 <th style='width : 10%'>Projectnummer</th>
 </tr>
@@ -142,9 +193,10 @@ $html .= "<table id='table-project-info'><thead>
 </tr>
 </tbody></table>";
 $html .= "</div>";
+$html .= "<div class='dark-blue-bar'>Samenvatting van het gesprek</div>";
+$html .= "<div class='txt-samenvatting'>";
 
-$html .= "<div class='panel-second'>";
-$html .= "<p id='txt-samenvatting'>" . nl2br($_POST['gp_samenvatting']) . "</p>";
+$html .= nl2br($_POST['gp_samenvatting']);
 $html .= "</div>";
 
 // if(isset($_POST['gp_project']))
@@ -166,17 +218,37 @@ $html .= '<htmlpagefooter name="pagefooter" style="display:none">
 </html>
 ';
 
-
+// $mpdf->autoPageBreak = false;
+// $mpdf->SetAutoPageBreak(TRUE, 100);
 $mpdf->WriteHTML($html);
+$mpdf->autoPageBreak = true;
 
+// if ($mpdf->y > 300) {
+//     $mpdf->AddPageByArray(['margin-left' => '0',
+//     'margin-right' => '80',
+//     'margin-top' => '20',
+//     'margin-left' => '10',
+//     'margin-bottom' => '20',
+//     'resetpagenum' => '1']);
 
+//     $html = '<html><head></head>
+//         <style>
+//         body{
+
+//             background-image: url("'.__DIR__.'/../../images/gesprekverslag-pdf-leeg-4.jpg");
+//         }
+//         </style>
+//         <body>' . nl2br($_POST['gp_samenvatting']) . '</body>
+//         </html>';
+//     $mpdf->WriteHTML($html);
+// }
 
 
 $mpdf->AddPageByArray([
     'margin-left' => '0',
     'margin-right' => '0',
-    'margin-top' => '0',
-    'margin-bottom' => '0',
+    'margin-top' => '20',
+    'margin-bottom' => '15',
     'resetpagenum' => '1'
 ]);
 
@@ -198,14 +270,17 @@ body{
     font-family: Asap;
 
 }
-.panel-third{
 
+.margin-50 {
+
+    margin-left : -40px;
+}
+.panel-third{
+padding-top : 20px;
 width : 100%;
 margin-left : 40px;
-padding-top : 100px;
-width : 55%;
-height : 440px;
 
+width : 90%;
 
 }
 
@@ -249,20 +324,27 @@ height : 440px;
 
 .panel-fifth{
     width : 100%;
-
+    padding-top : 10mm;
 }
 
 .panel-fifth .person{
     line-height : 25px;
+    padding-left : 40px;
 }
+.panel-fifth .dark-blue-bar{
+    margin-bottom : 5mm;
+}
+
 </style>
 </head>
 <body>
+
 <div class="panel-third">
-<p class="txt-strong">Wat is er besloten?</p>
+<div class="dark-blue-bar margin-50">Wat is er besloten?</div>
 <p style="line-height : 26px;">' . nl2br($_POST['gp_beslissingen']) . '</p>
 </div>
 <div class="panel-firth">
+<div class="dark-blue-bar margin-50">To-do\'s</div>
     <div class="panel-firth-left">
     <p  class="txt-strong">Van der Zeeuw</p>';
     if(isset($_POST['gw_todo_zeeuw']))
@@ -281,11 +363,11 @@ $html .= '
         $html .= "<div class='item'>" . $item . "</div>";
     }
 
-$html .=    '</div>';
+$html .=    '</div></div>';
 if(isset($_POST['gw_person']))
 {
     $html .= '<div class="panel-fifth">
-    <p class="txt-strong">Deze personen waren aanwezig:</p>'; 
+    <div class="dark-blue-bar">Deze personen waren aanwezig</div>'; 
     foreach($_POST['gw_person'] as $item)
     {
         $html .= "<div class='person'>" . $item . "</div>";
@@ -318,7 +400,7 @@ if(isset($_POST['image_path'])){
 $mpdf->AddPageByArray([
     'margin-left' => '0',
     'margin-right' => '0',
-    'margin-top' => '40',
+    'margin-top' => '25',
     'margin-bottom' => '0'
 ]);
 
@@ -347,6 +429,7 @@ body{
     max-width : 90%;
     margin-left : 5%;
     margin-top : 30px;
+    max-height : 90%;
 }
 </style>
 </head>
@@ -354,7 +437,7 @@ body{
 ';
 
 $html .= "<div class='panel-sixth'>";
-
+$html .= "<div class='dark-blue-bar'>Bijlagen</div>";
 foreach($_POST['image_path'] as $img)
 {
     $html .= "<img class='image-bijlagen' src='" .__DIR__.'/../../upload/' . $img .  "'/>";
@@ -396,10 +479,10 @@ function generateRandomString($length = 10, $hasNumber = false, $hasLowercase = 
 
 $date = date_create();
 $dt = $date->format("d-m-Y");
-$file_name = generateRandomString(10) . "_" .  $dt . ".pdf";
+$file_name = "gespreksverslag" . "-" . $row['name'] . "-" .  $dt . "-" .  generateRandomString(10) . ".pdf";
 $mpdf->Output('upload/'.$file_name,'F'); 
-$mpdf->Output($file_name,'D'); 
-// exit();
+// $mpdf->Output($file_name,'I'); 
+exit();
 
 require( 'common/connection.php');
 
