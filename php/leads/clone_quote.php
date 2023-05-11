@@ -41,8 +41,8 @@ if($new_quote_id != '')
     while ($row = $result->fetch_assoc()) {
 
         $chapter_id = $row['id'];
-        $stmt_new = $con -> prepare("INSERT INTO quote_chapters (chapter_name, quote_id, default_chapter_id, sort_order) VALUES (?, ?, ?, ?)");
-        $stmt_new -> bind_param("siii", $row['chapter_name'], $new_quote_id, $row['default_chapter_id'], $row['sort_order']);
+        $stmt_new = $con -> prepare("INSERT INTO quote_chapters (chapter_name, quote_id, default_chapter_id, chapter_factor, sort_order) VALUES (?, ?, ?, ?, ?)");
+        $stmt_new -> bind_param("siisi", $row['chapter_name'], $new_quote_id, $row['default_chapter_id'], $row['chapter_factor'], $row['sort_order']);
         $stmt_new->execute();
         $new_chapter_id = $stmt_new -> insert_id;
 
